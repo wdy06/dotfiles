@@ -88,7 +88,12 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
+# exa
+if [ -x "$(command -v exa)" ]; then
+    alias ll='exa -al'
+else
+    alias ll='ls -alFh'
+fi
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -100,6 +105,11 @@ alias gb='git branch'
 alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
+
+# bat
+if [ -x "$(command -v bat)" ]; then
+    alias cat='bat'
+fi
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
