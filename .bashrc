@@ -97,14 +97,18 @@ fi
 alias la='ls -A'
 alias l='ls -CF'
 
+alias g='git'
 alias ga='git add'
 alias gd='git diff'
 alias gs='git status'
-alias gp='git pull'
-alias gb='git branch'
 alias gco='git checkout'
-alias gf='git fetch'
 alias gc='git commit'
+
+# docker
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dim='docker images'
+alias dc='docker-compose'
 
 # bat
 if [ -x "$(command -v bat)" ]; then
@@ -134,11 +138,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-alias dps='docker ps'
-alias dpsa='docker ps -a'
-alias dim='docker images'
-alias dc='docker-compose'
 
 source ~/.git-prompt.sh
 source ~/.git-completion.bash
