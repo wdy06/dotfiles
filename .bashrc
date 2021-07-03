@@ -64,7 +64,6 @@ fi
 PROMPT_COMMAND=__prompt_command
 
 __prompt_command() {
-  __saml_ps1
   # After each command, append to the history file and reread it
   history -a
   history -c
@@ -85,7 +84,7 @@ __saml_ps1() {
 
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[1;35m\]$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w \n\[\033[0m\][\u@ \W]\[\033[35m\]$(__git_ps1)\[\033[00m\]\$ '
+    PS1='\[\033[1;35m\]$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w \n\[\033[1;37;104m\]$(__saml_ps1)\[\033[0m\]\n\[\033[0m\][\u@ \W]\[\033[35m\]$(__git_ps1)\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
