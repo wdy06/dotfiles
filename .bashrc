@@ -65,6 +65,10 @@ PROMPT_COMMAND=__prompt_command
 
 __prompt_command() {
   __saml_ps1
+  # After each command, append to the history file and reread it
+  history -a
+  history -c
+  history -r
 }
 
 __saml_ps1() {
@@ -77,10 +81,6 @@ __saml_ps1() {
   if [ ${expire_time_unix} -ge ${now_unix} ]; then
       echo "[AWS role: ${rolename}]"
   fi
-  # After each command, append to the history file and reread it
-  history -a
-  history -c
-  history -r
 }
 
 
