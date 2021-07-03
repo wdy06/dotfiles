@@ -19,6 +19,11 @@ shopt -s histappend
 HISTSIZE=10000
 HISTFILESIZE=100000
 
+# Avoid duplicates
+HISTCONTROL=ignoredups:erasedups
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -56,8 +61,31 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+PROMPT_COMMAND=__prompt_command
+
+__prompt_command() {
+  __saml_ps1
+}
+
+__saml_ps1() {
+  local rolename=$(grep x_principal_arn ~/.aws/credentials | sed -E 's/.*assumed-role\/(.*)\/.*/\1/')
+  local expire_time=$(grep x_security_token_expires ~/.aws/credentials | sed -E 's/.* = (.*)/\1/')
+  local expire_time_unix=$(gdate -d ${expire_time} +%s)
+  local now_unix=$(gdate +%s)
+  local BLUE_BACK='\[\e[1;37;104m\]'
+
+  if [ ${expire_time_unix} -ge ${now_unix} ]; then
+      echo "[AWS role: ${rolename}]"
+  fi
+  # After each command, append to the history file and reread it
+  history -a
+  history -c
+  history -r
+}
+
+
 if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[1;35m\]\$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w\n\[\033[0m\][\u@ \W]\[\033[35m\]\$(__git_ps1)\[\033[00m\]\$ "
+    PS1="\[\033[1;35m\]\$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w \n\[\033[0m\][\u@ \W]\[\033[35m\]\$(__git_ps1)\[\033[00m\]\$ "
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
