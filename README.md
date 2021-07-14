@@ -9,6 +9,10 @@
 - あとはdotfiles以下でコミットしてpushしたら出来上がり :tada:
 - 同じように管理したいものdotfilesディレクトリにコピーしてシンボリックリンクを貼っていく
 - gitconfig_sharedは`.gitconfig`に[include]以下でpathを追加する
+```
+[include]
+        path = ~/.gitconfig_shared
+```
 ## 参考
 - https://qiita.com/yutakatay/items/c6c7584d9795799ee164
 - https://qiita.com/knt45/items/51b8a8645f36fb0a6d01
