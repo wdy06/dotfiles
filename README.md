@@ -13,6 +13,12 @@
 [include]
         path = ~/.gitconfig_shared
 ```
+
+## install via install.sh
+```
+./bin/install.sh
+```
+
 ## 参考
 - https://qiita.com/yutakatay/items/c6c7584d9795799ee164
 - https://qiita.com/knt45/items/51b8a8645f36fb0a6d01
