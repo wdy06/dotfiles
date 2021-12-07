@@ -206,3 +206,11 @@ if [[ -x `which colordiff` ]]; then
 else
   alias diff='diff -u'
 fi
+
+# for pipx
+export PATH="$PATH:${HOME}/.local/bin"
+
+if [ -f ~/.env ]
+then
+  export $(cat ~/.env | sed 's/#.*//g' | xargs)
+fi
