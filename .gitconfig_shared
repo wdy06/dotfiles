@@ -4,3 +4,4 @@
   ps = "!git push origin $(git rev-parse --abbrev-ref HEAD)"
   pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
   br = branch
+  open = "!hub browse"
