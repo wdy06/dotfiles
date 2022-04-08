@@ -203,6 +203,13 @@ fbr() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
+fhq() {
+  local dir
+  dir=$(ghq list --full-path | fzf)
+  echo "$dir"
+  cd "$dir"
+}
+
 if [[ -x `which colordiff` ]]; then
   alias diff='colordiff -u'
 else
