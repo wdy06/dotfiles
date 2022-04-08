@@ -48,7 +48,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -73,8 +73,8 @@ __prompt_command() {
 __saml_ps1() {
   local rolename=$(grep x_principal_arn ~/.aws/credentials | sed -E 's/.*assumed-role\/(.*)\/.*/\1/')
   local expire_time=$(grep x_security_token_expires ~/.aws/credentials | sed -E 's/.* = (.*)/\1/')
-  local expire_time_unix=$(gdate -d ${expire_time} +%s)
-  local now_unix=$(gdate +%s)
+  local expire_time_unix=$(date -d ${expire_time} +%s)
+  local now_unix=$(date +%s)
   local BLUE_BACK='\[\e[1;37;104m\]'
 
   if [ ${expire_time_unix} -ge ${now_unix} ]; then
@@ -84,7 +84,8 @@ __saml_ps1() {
 
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[1;35m\]$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w \n\[\033[1;37;104m\]$(__saml_ps1)\[\033[0m\]\n\[\033[0m\][\u@ \W]\[\033[35m\]$(__git_ps1)\[\033[00m\]\$ '
+    # PS1='\[\033[1;35m\]$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w \n\[\033[1;37;104m\]$(__saml_ps1)\[\033[0m\]\n\[\033[0m\][\u@ \W]\[\033[35m\]$(__git_ps1)\[\033[00m\]\$ '
+    PS1='\[\033[1;35m\]$(date +%Y/%m/%d_%H:%M:%S)\[\033[0m\] \[\033[33m\]\H:\w \[\033[0m\]\n\[\033[0m\][\u@ \W]\[\033[35m\]$(__git_ps1)\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -136,6 +137,7 @@ alias dps='docker ps'
 alias dpsa='docker ps -a'
 alias dim='docker images'
 alias dc='docker-compose'
+alias k='kubectl'
 
 # bat
 if [ -x "$(command -v bat)" ]; then
@@ -210,7 +212,20 @@ fi
 # for pipx
 export PATH="$PATH:${HOME}/.local/bin"
 
+# for go bin
+export PATH="$PATH:${HOME}/go/bin"
+
+
 if [ -f ~/.env ]
 then
   export $(cat ~/.env | sed 's/#.*//g' | xargs)
 fi
+
+if [ -f ~/.bashrc_work ]
+then
+  source ~/.bashrc_work
+fi
+
+
+
+
