@@ -15,8 +15,9 @@
 ```
 
 ## install via install.sh
+このレポジトリのディレクトリに移動して下記のコマンド
 ```
-./bin/install.sh
+.bin/install.sh
 ```
 
 ## 参考
