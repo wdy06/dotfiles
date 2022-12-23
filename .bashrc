@@ -210,6 +210,41 @@ fhq() {
   cd "$dir"
 }
 
+# tabc <profile name> do the profile change
+tabc () {
+  NAME=$1; if [ -z "$NAME" ]; then NAME="Default"; fi 
+  # if you have trouble with this, change
+  # "Default" to the name of your default theme
+  echo -e "\033]50;SetProfile=$NAME\a"
+}
+
+# reset the terminal profile to Default  when exit from the ssh session
+tab-reset() {
+    NAME="Default"
+    echo -e "\033]50;SetProfile=$NAME\a"
+}
+
+# selecting different terminal profile according to ssh'ing host
+# tabc <profile name> do the profile change
+#   1. Production profile to production server (ssh eranga@production_box) 
+#   2. Staging profile to staging server(ssh eranga@staging_box) 
+#   3. Other profile to any other server(test server, amazon box etc)
+colorssh() {
+    if [[ -n "$ITERM_SESSION_ID" ]]; then
+        trap "tab-reset" INT EXIT
+        if [[ "$*" =~ "kubeflow" ]]; then
+            tabc kubeflow
+        elif [[ "$*" =~ "staging*" ]]; then
+            tabc Staging 
+        else
+            tabc Other
+        fi
+    fi
+    ssh $*
+}
+tab-reset
+alias ssh="colorssh"
+
 if [[ -x `which colordiff` ]]; then
   alias diff='colordiff -u'
 else
